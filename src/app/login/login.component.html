@@ -1,0 +1,25 @@
+<br/>
+<div class="row">
+  <div class="col-sm-4"></div>
+  <div class="col-sm-4">
+      <h3 class="pageTitle">Login</h3><br/>
+      <div class="card">
+    <form action="/">
+      <div class="card-body">
+        <div class="form-group ">
+          <label for="email">Username:</label>
+          <input [(ngModel)]="user.userName" type="email" class="form-control" id="username" [ngModelOptions]="{standalone:
+            true}">
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input [(ngModel)]="user.userPassword" type="password" class="form-control" id="password" [ngModelOptions]="{standalone:
+            true}">
+        </div>  
+        <button type="submit" class="btn btn-primary" (click)="loginUser();">Login</button>
+      </div>
+    </form>  
+    </div>  
+  </div>
+  <div class="col-sm-4"></div>
+</div>

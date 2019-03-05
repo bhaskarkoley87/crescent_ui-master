@@ -1,0 +1,34 @@
+<br />
+<div class="row">
+  <div class="col-sm-2"></div>
+  <h3 class="pageTitle">Dashboard</h3>
+</div>
+<br />
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="dashboardNavbar">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a [class]="getClassForTabs('registerGiveAwayLink')" routerLink="/dashboard/giveaway" id="registerGiveAwayLink" (click)="clickedTab('registerGiveAwayLink')"><i class="fa fa-upload" aria-hidden="true"></i> Register a GiveAway</a>
+      </li>
+      <li class="nav-item">
+        <a [class]="getClassForTabs('giveAwayRequestsLink')"  routerLink="/dashboard/myrequests" id="giveAwayRequestsLink" (click)="clickedTab('giveAwayRequestsLink')"><i class="fa fa-info" aria-hidden="true"></i> Your GiveAway Requests</a>
+      </li>
+      <li class="nav-item">
+          <a [class]="getClassForTabs('notificationsLink')" routerLink="/dashboard/giveaway" id="notificationsLink" (click)="clickedTab('notificationsLink')"><i class="fa fa-bell" aria-hidden="true"></i> Notifications</a>
+      </li>
+      <li class="nav-item" *ngIf=" sessionService.getUserObjectFromSession().userRole === 'appAdmin' ">
+          <a [class]="getClassForTabs('approveUsersLink')" routerLink="/dashboard/allusers" id="approveUsersLink" (click)="clickedTab('approveUsersLink')"><i class="fa fa-unlock" aria-hidden="true"></i> GiveAway Users</a>
+      </li>
+      <li class="nav-item" *ngIf=" !(sessionService.getUserObjectFromSession().userRole === 'gwUser') ">
+          <a [class]="getClassForTabs('manageInventoryLink')" routerLink="/dashboard/manageinventory" id="manageInventoryLink" (click)="clickedTab('manageInventoryLink')"><i class="fa fa-wrench" aria-hidden="true"></i> Inventory</a>
+      </li>
+      <li class="nav-item" *ngIf=" sessionService.getUserObjectFromSession().userRole === 'appAdmin' ">
+          <a [class]="getClassForTabs('generateReportsLink')" routerLink="/dashboard/giveaway" id="generateReportsLink" (click)="clickedTab('generateReportsLink')"><i class="fa fa-flag" aria-hidden="true"></i> Generate Reports</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div>
+  <router-outlet></router-outlet>
+</div>

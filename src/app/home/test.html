@@ -1,0 +1,114 @@
+<div class="homePageCarousel">
+    <div class="item slide-in" id="item1"><img [src]="'assets/img/helpChildren.jpg'" alt="HelpTheChildren"
+            style="width:70%;">
+        <p>Help the children by giving them privileges you had, but they didn't...</p>
+    </div>
+    <div class="item slide-in" id="item2"><img [src]="'assets/img/helpPeopleGrow.jpg'" alt="HelpPeopleGrow"
+            style="width:70%;">
+        <p>Help people grow in their lives by empowering them with tools they need to get started...</p>
+    </div>
+    <div class="item slide-in" id="item3"><img [src]="'assets/img/beTheChange.png'" alt="BeTheChangeYouWantToSee"
+            style="width:70%;"></div>
+    <div class="controls">
+        <a href="#item1" class="btn">•</a>
+        <a href="#item2" class="btn">•</a>
+        <a href="#item3" class="btn">•</a>
+    </div>
+</div>
+
+
+
+
+
+    <div id="css">
+
+            Edit in JSFiddle
+            JavaScript
+            HTML
+            CSS
+            Result
+            html,
+            body {
+                height: 100%;
+            }
+            
+            body {
+                margin: 0;
+            }
+            
+            .homePageCarousel {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            
+            .homePageCarousel .item {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+            }
+            
+            /* animations */
+            
+            .homePageCarousel .slide-in {
+                -webkit-transform: translate3d(-90%, 0px, 0px);
+                -moz-transform: translate3d(-90%, 0px, 0px);
+                -ms-transform: translate3d(-90%, 0px, 0px);
+                -o-transform: translate(-90%, 0px, 0px);
+                transform: translate3d(-90%, 0px, 0px);
+                -webkit-transition: -webkit-transform 0.5s ease-out;
+                -moz-transition: -moz-transform 0.5s ease-out;
+                -ms-transition: -ms-transform 0.5s ease-out;
+                -o-transition: -o-transform 0.5s ease-out;
+                transition: transform 0.5s ease-out;
+                z-index: 1;
+            }
+            
+            .homePageCarousel .slide-in:target,
+            .homePageCarousel .slide-in:focus {
+                -webkit-transform: translate3d(0px, 0px, 0px);
+                -moz-transform: translate3d(0px, 0px, 0px);
+                -ms-transform: translate3d(0px, 0px, 0px);
+                -o-transform: translate(0px, 0px, 0px);
+                transform: translate3d(0px, 0px, 0px);
+                z-index: 2;
+            }
+            
+            .homePageCarousel .slide-in:target ~ .slide-in {
+                -webkit-transform: translate3d(90%, 0px, 0px);
+                -moz-transform: translate3d(90%, 0px, 0px);
+                -ms-transform: translate3d(90%, 0px, 0px);
+                -o-transform: translate(90%, 0px, 0px);
+                transform: translate3d(90%, 0px, 0px);
+            }
+            
+            .homePageCarousel .controls {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                text-align: center;
+                z-index: 5;
+            }
+            
+            .homePageCarousel .controls .btn {
+                color: #333;
+                font-size: 3em;
+                text-decoration: none;
+            }
+            
+            /* colours */
+            
+            .red {
+                background-color: red;
+            }
+            
+            .green {
+                background-color: green;
+            }
+            
+            .yellow {
+                background-color: yellow;
+            }
+    </div>

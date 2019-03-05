@@ -1,0 +1,95 @@
+<br />
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-5">
+    <h3 class="pageTitle">#GiveAway for a noble cause</h3><br />
+    <div class="card">
+      <form action="/">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="itemCategory" class="pageTitle">Please select the item category:</label>
+            <select class="form-control" id="itemCategory" name ="itemCategory" [(ngModel)]="inventory.itemCategory">
+              <option disabled selected value> -- select an option -- </option>
+              <option name="itemCategory" *ngFor="let cat of itemCategoryList" [value]="cat.typeCode">{{
+                cat.typeCode }}</option>
+            </select>
+          </div>
+          <!-- <button type="Upload" class="btn btn-primary" (click)="uploadFiles()">Upload Pictures</button> -->
+          <div class="form-group">
+            <label for="inventoryItemName">Item Name:</label>
+            <input [(ngModel)]="inventory.inventoryItemName" type="text" class="form-control" id="itemCount"
+              [ngModelOptions]="{standalone:
+                true}" placeholder="Enter Item Name, eg: Watch" />
+          </div>
+          <div class="form-group">
+            <label for="itemDescription">Item Description:</label>
+            <textarea class="form-control" cols="30" rows="5" id="itemCount" [(ngModel)]="inventory.itemDescription"
+              placeholder="Enter Item Description of your item" id="itemDescription" [ngModelOptions]="{standalone:
+                true}"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="itemCount">Count of items you wish to donate:</label>
+            <input [(ngModel)]="inventory.itemCount" type="text" class="form-control" id="itemCount" [ngModelOptions]="{standalone:
+                true}"
+              placeholder="for eg: 1" />
+          </div>
+          <div class="form-group">
+            <label for="itemWareHouseAddress">Select City for Collection Center:</label>
+            <select class="form-control" id="itemWareHouseAddress" [(ngModel)]="inventory.itemWareHouseAddress" name="itemWareHouseAddress">
+              <option disabled selected value> -- select an option -- </option>
+              <option>Kolkata</option>
+            </select>
+          </div>
+          <div *ngIf="(inventory.itemCategory === 'Book')">
+            <div class="form-group">
+              <label for="bookCategory">Select the Book Category:</label>
+              <select class="form-control" id="bookCategory" [(ngModel)]="inventory.itemWareHouseAddress" name="bookCategory">
+                <option disabled selected value> -- select an option -- </option>
+                <option>SchoolBook</option>
+                <option>Others</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="bookName">Book Name:</label>
+              <input [(ngModel)]="inventory.bookName" type="text" class="form-control" id="bookName" [ngModelOptions]="{standalone:
+                      true}"
+                placeholder="eg: Budhacharitra" />
+            </div>
+            <div class="form-group">
+              <label for="bookIsbnNumber">Book ISBN Number:</label>
+              <input [(ngModel)]="inventory.bookIsbnNumber" type="text" class="form-control" id="bookIsbnNumber"
+                [ngModelOptions]="{standalone:
+                        true}" placeholder="eg: ISBN0001245" />
+            </div>
+            <div class="form-group">
+              <label for="bookAuthor">Book Author:</label>
+              <input [(ngModel)]="inventory.bookAuthor" type="text" class="form-control" id="bookAuthor"
+                [ngModelOptions]="{standalone:
+                          true}" placeholder="eg: Ved Vyas" />
+            </div>
+          </div>
+          <div class="form-group" *ngIf="(inventory.itemCategory === 'Dress') ">
+            <label for="dressSize">Dress Size:</label>
+            <select name="dressSize" class="form-control" id="dressSize" [(ngModel)]="inventory.dressSize">
+              <option disabled selected value> -- select an option -- </option>
+              <option>S</option>
+              <option>M</option>
+              <option>L</option>
+              <option>XL</option>
+              <option>XXL</option>
+            </select>
+          </div>
+          <div class="form-group" *ngIf="!(inventory.itemCategory === 'SoftCopyStudyMaterial') ">
+            <label for="itemToUpload">Kindly select one picture of the item for upload:</label>
+            <input type="file" class="form-control" id="itemToUpload" (change)="selectFile($event)" multiple />
+          </div>
+          <div class="form-group" *ngIf="(inventory.itemCategory === 'SoftCopyStudyMaterial') ">
+            <label for="itemToUpload">Kindly upload one file for SoftCopyStudyMaterial:</label>
+            <input type="file" class="form-control" id="itemToUpload" (change)="selectFile($event)" multiple />
+          </div>
+          <button type="submit" class="btn btn-primary" (click)="submitGiveAwayRequest()">Submit Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<br />
+<div class="row">
+  <div class="col-sm-2"></div>
+  <h3 class="pageTitle">#GiveAway Inventory Section</h3>
+</div>
+<br />
+<div class="row">
+  <div class="col-sm-2"></div>
+  <h5 class="pageTitle">All Inventory</h5>
+</div>
+<div class="row">
+  <div class="col-sm-2"></div>
+  <a class="nav-link" (click)="getAllInventoryDetails()" routerLink="/dashboard/manageinventory"><i
+      class="fa fa-refresh" aria-hidden="true"></i></a>
+</div>
+<div class="row allInventoryItemSection">
+  <div class="col-sm-2"></div>
+  <div style="width:65%;">
+    <ag-grid-angular class="ag-theme-balham" [enableFilter]="true" [enableSorting]="true" [pagination]="true"
+      [rowData]="rowData" [columnDefs]="columnDefs" [pagination]="true">
+    </ag-grid-angular>
+    <div class="allInventoryItemButtonSection">
+      <div class="form-group">
+        <input type="text" [(ngModel)]="userEnteredRequestToken" id="userEnteredRequestTokenText"
+          placeholder="User Request Token:" style="width:200px;" />
+      </div>
+      <div class="form-group">
+        <input type="text" [(ngModel)]="userEnteredRequestCount" id="userEnteredRequestCount"
+          placeholder="Count of item to Request:" style="width:200px;" />
+      </div>
+      <button id="requestInventoryItemButton" style="width:70px;" type="button" class="btn btn-primary btn-sm"
+        [disabled]="checkIfRequestButtonShouldBeEnabled()" (click)="requestInventoryItem()">Request</button>
+    </div>
+  </div>
+</div>
+<br/>
+<div class="row">
+  <div class="col-sm-2"></div>
+  <h5 class="pageTitle">Inventory Requests</h5>
+</div>
+<div class="row">
+  <div class="col-sm-2"></div>
+  <a class="nav-link" (click)="getRequestedInventoryDetails()" routerLink="/dashboard/manageinventory"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+</div>
+<div class="row inventoryItemRequestsSection">
+  <div class="col-sm-2"></div>
+  <div style="width:65%;">
+    <ag-grid-angular class="ag-theme-balham" [enableFilter]="true" [enableSorting]="true" [pagination]="true" [rowData]="rowData2"
+      [columnDefs]="columnDefs2" [pagination]="true">
+    </ag-grid-angular>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-2"></div>
+  <h5 class="pageTitle">My Tasks</h5>
+</div>
+<div class="row">
+  <div class="col-sm-2"></div>
+  <a class="nav-link" (click)="getApprovedItemInventoryDetails()" routerLink="/dashboard/manageinventory"><i class="fa fa-refresh" aria-hidden="true"></i></a>
+</div>
+<div class="row voulunterTaskGridSection">
+  <div class="col-sm-2"></div>
+  <div style="width:65%;">
+    <ag-grid-angular class="ag-theme-balham" [enableFilter]="true" [enableSorting]="true" [pagination]="true" [rowData]="rowData3"
+      [columnDefs]="columnDefs3" [pagination]="true">
+    </ag-grid-angular>
+    
+    <div class="approvedInventoryItemButtonSection">
+      <div class="form-group">
+        <input type="text" [(ngModel)]="userEnteredRequestToken" id="userEnteredRequestTokenText"
+          placeholder="User Request Token:" style="width:200px;" />
+      </div>
+      <div class="form-group">
+        <input type="text" [(ngModel)]="userEnteredRecipientAddress" id="userEnteredRecipientAddress"
+          placeholder="Recipient Address:" style="width:300px;" />
+      </div>
+      <button id="requestInventoryItemButton" style="width:70px;" type="button" class="btn btn-primary btn-sm"
+        [disabled]="checkIfDonatedButtonShouldBeEnabled()" (click)="submitItemToRecipient()">Donated</button>
+    </div>
+  </div>
+</div>
