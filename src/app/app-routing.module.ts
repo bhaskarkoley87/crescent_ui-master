@@ -9,12 +9,14 @@ import { GiveAwayComponent } from './give-away/give-away.component';
 import { GiveawayRequestsByUserComponent } from './giveaway-requests-by-user/giveaway-requests-by-user.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import { ManageInventoryComponent } from './manage-inventory/manage-inventory.component';
+import { InboxComponent } from './inbox/inbox.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signUp', component: RegistrationComponent },
   { path: 'event', component: EventregestrationComponent },
+  { path: 'inbox', component: InboxComponent },
   {
     path: 'dashboard', component: DashboardComponent,
     children: [

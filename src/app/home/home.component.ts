@@ -18,7 +18,17 @@ export class HomeComponent implements OnInit {
     /*this.giveAway.getEvent().subscribe((data:  Array<EventBean>) => {
       this.eventbean  =  data;
       console.log(data);
-  }); */
+    }); */
+
+    this.giveAway
+      .getServiceCall(
+        environment.endpoint,
+        "event" + "/get"
+      )
+      .subscribe(data => {
+        //this.rowData = data;
+        this.eventbean  =  Object.assign(data);        
+        });
   }
 
    getClassForIteration(indexNumber:number) {

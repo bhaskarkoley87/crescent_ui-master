@@ -26,12 +26,15 @@ export class LoginComponent implements OnInit {
     this.serviceObject.postServiceCall(this.user, environment.userManagementBaseUrl, "login")
       .subscribe(
         data => {
-          // if login is successfull, the user session is set and user is redirected to home page.
           this.sessionService.setUserSessionObj(data);
-          if (data["userApproved"]) {
+          // if login is successfull, the user session is set and user is redirected to home page.
+          if (data != null && data["userApproved"]) {
             this.sessionService.setIsUserLoggedIn("true");
+            this.routerObj.navigateByUrl("/home");
+          } else {
+            this.routerObj.navigateByUrl("/home");
           }
-          this.routerObj.navigateByUrl("/home");
+          
         }, this.serviceObject.handleError);
   };
 

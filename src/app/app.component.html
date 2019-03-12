@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
   <div class="container">
     <a class="navbar-brand" href="/home"><img src="../assets/img/crescentLogo.png" width="15%" /> {{ appTitle }}</a>
-    | <!--<a class="nav-link" routerLink="/inbox"><i class="fa fa-fw fa-envelope"></i></a>-->
+    | <a class="nav-link" routerLink="/inbox" *ngIf=" sessionService.isUserSessionAlive() "><i class="fa fa-fw fa-envelope"></i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
       aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/signUp" routerLinkActive="active" *ngIf=" !sessionService.isUserSessionAlive() "><i class="fa fa-fw fa-sign-in"></i>Sign Up</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf=" sessionService.isUserSessionAlive() ">
           <a class="nav-link" routerLink="/event" routerLinkActive="active"><i class="fa fa-fw fa-star"></i>Event</a>
         </li>
         <li class="nav-item" *ngIf=" !sessionService.isUserSessionAlive() ">

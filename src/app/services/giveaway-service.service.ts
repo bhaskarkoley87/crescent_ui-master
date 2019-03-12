@@ -22,6 +22,15 @@ const httpOptionsForMultipart = {
     Authorization: "Basic " + btoa("loginUser:loginPassword")
   })
 };
+
+const httpOptionsForMultipartEvent = {
+  headers: new HttpHeaders({
+    Authorization: "Basic " + btoa("loginUser:loginPassword")
+  }),
+  reportProgress: true,
+  responseType: 'json'
+};
+
 @Injectable({
   providedIn: "root"
 })
@@ -50,15 +59,15 @@ export class GiveawayService {
     const formdata: FormData = new FormData();
 
     formdata.append("file", file);
-
+    formdata.append(
+      "userId",
+      String(this.sessionService.getUserObjectFromSession()["userId"])
+    );        
     const req = new HttpRequest(
       "POST",
       `${this.endpoint}` + `event/uploadimage`,
       formdata,
-      {
-        reportProgress: true,
-        responseType: "json"
-      }
+      httpOptionsForMultipartEvent
     );
 
     return this.http.request(req);

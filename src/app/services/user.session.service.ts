@@ -40,4 +40,13 @@ export class SessionService {
         }
         return false;
     }
+
+    isUserAdmin(): boolean {
+        if(this.isUserSessionAlive()){
+            if (this.getUserObjectFromSession()["userRole"] === "appAdmin") {
+                return true;
+            }
+        }       
+        return false;
+    }
 }

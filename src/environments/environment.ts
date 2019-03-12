@@ -8,9 +8,10 @@ export const environment = {
     CONSUMER_KEY : 'someReallyStupidTextWhichWeHumansCantRead', 
     codes: [ 'AB', 'AC', 'XYZ' ],
     projectTitle: 'crescent',
-    endpoint: 'http://localhost:8090/',
+    endpoint: 'http://localhost:7008/',
     userManagementBaseUrl: 'http://localhost:8090/',
-    inventoryManagementBasUrl: 'http://localhost:8091/'
+    inventoryManagementBasUrl: 'http://localhost:8091/',
+    mailBasUrl: 'http://localhost:7005/'
 };
 
 /*
