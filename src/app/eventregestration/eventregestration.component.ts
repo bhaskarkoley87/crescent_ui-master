@@ -6,6 +6,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { Router } from '@angular/router';
 import { SessionService } from '../services/user.session.service';
 import { environment } from '../../environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 
 @Component({
   selector: 'app-eventregestration',
@@ -22,21 +24,26 @@ export class EventregestrationComponent implements OnInit {
   submitted = false;
   progress: { percentage: number } = { percentage: 0 };
   constructor(private serviceObject: GiveawayService,
-    private sessionService: SessionService, private formBuilder: FormBuilder, private myRoute: Router) { }
+    private sessionService: SessionService, private formBuilder: FormBuilder, private myRoute: Router, private modalService : NgbModal) { }
 
   ngOnInit() {
-    this.eventbean = new EventBean();
-    this.eventForm = this.formBuilder.group({
-      eveName: ['', [Validators.required, Validators.minLength(20)]],
-      eveDescription: ['', [Validators.required, Validators.minLength(100)]],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      //email: ['', [Validators.required, Validators.email]],
-      //password: ['', [Validators.required, Validators.minLength(6)]],
-     // confirmPassword: ['', Validators.required]
-   }, {validator: this.dateLessThan('startDate', 'endDate')});
+    if(!this.sessionService.isUserSessionAlive()){
+      this.myRoute.navigateByUrl("/home");
+    }else{
+      this.eventbean = new EventBean();
+      this.eventForm = this.formBuilder.group({
+        eveName: ['', [Validators.required, Validators.minLength(20)]],
+        eveDescription: ['', [Validators.required, Validators.minLength(100)]],
+        startDate: ['', Validators.required],
+        endDate: ['', Validators.required],
+        address: ['', Validators.required],
+        city: ['', Validators.required],
+        //email: ['', [Validators.required, Validators.email]],
+        //password: ['', [Validators.required, Validators.minLength(6)]],
+       // confirmPassword: ['', Validators.required]
+     }, {validator: this.dateLessThan('startDate', 'endDate')});
+    }
+   
   }
 
   dateLessThan(from: string, to: string) {
@@ -75,7 +82,10 @@ export class EventregestrationComponent implements OnInit {
         this.myRoute.navigateByUrl("/home");
       });     
     }else{
-      alert("Please upload the image first..");
+      //alert("Please upload the image first..");
+      const messageToShow = "Please upload the image first..";
+      const modalRef = this.modalService.open(PopupModalComponent);
+      modalRef.componentInstance.thisModalContent = messageToShow;
     }
     
   };

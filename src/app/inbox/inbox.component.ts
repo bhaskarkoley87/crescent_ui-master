@@ -3,6 +3,7 @@ import { GiveawayService } from '../services/giveaway-service.service';
 import { environment } from '../../environments/environment';
 import { SessionService } from '../services/user.session.service';
 import { Mail } from '../models/mail.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inbox',
@@ -21,11 +22,14 @@ export class InboxComponent implements OnInit {
 
   mailList: Mail[] = [];
 
-  constructor(private serviceObject: GiveawayService, private sessionService: SessionService) {
-    this.getAllMailForUser();
+  constructor(private serviceObject: GiveawayService, private sessionService: SessionService, private routerObj: Router) {
+    if(this.sessionService.isUserSessionAlive()){ this.getAllMailForUser();}else{ this.routerObj.navigateByUrl("/home");}
   }
 
   ngOnInit() {
+    if(!this.sessionService.isUserSessionAlive()){
+      this.routerObj.navigateByUrl("/home");
+    }
   }
 
   getAllMailForUser(): void {

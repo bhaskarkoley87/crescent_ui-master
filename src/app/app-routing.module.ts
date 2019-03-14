@@ -10,13 +10,16 @@ import { GiveawayRequestsByUserComponent } from './giveaway-requests-by-user/giv
 import { AllUsersComponent } from './all-users/all-users.component';
 import { ManageInventoryComponent } from './manage-inventory/manage-inventory.component';
 import { InboxComponent } from './inbox/inbox.component';
+import { ReportComponent } from './report/report.component';
 
-const routes: Routes = [
+const routes: Routes = [   
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signUp', component: RegistrationComponent },
   { path: 'event', component: EventregestrationComponent },
   { path: 'inbox', component: InboxComponent },
+  { path: 'report', component: ReportComponent },
   {
     path: 'dashboard', component: DashboardComponent,
     children: [

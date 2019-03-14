@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { ChartsModule } from 'ng2-charts';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +28,8 @@ import { ManageInventoryComponent } from './manage-inventory/manage-inventory.co
 import { OutreachUserRequestComponent } from './outreach-user-request/outreach-user-request.component';
 import { PopupModalComponent } from './popup-modal/popup-modal.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { ReportComponent } from './report/report.component';
+
 
 
 @NgModule({
@@ -46,7 +49,8 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
     ManageInventoryComponent,
     OutreachUserRequestComponent,
     PopupModalComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ReportComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +60,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
     ReactiveFormsModule,
     NgHttpLoaderModule.forRoot(),
     NgbModule,
+    ChartsModule,
     AgGridModule.withComponents([])
   ],
   providers: [GiveawayService, SessionService],

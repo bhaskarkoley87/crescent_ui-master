@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, ViewChild } from '@angular/core';
 import { User } from '../models/user.model';
 import { GiveawayService } from '../services/giveaway-service.service';
 import { environment } from '../../environments/environment';
@@ -14,7 +14,9 @@ export class LoginComponent implements OnInit {
 
   user: User;
 
-  constructor(private serviceObject: GiveawayService, private routerObj: Router, private sessionService: SessionService) {
+  @ViewChild("divInvalidMessage", {read: ElementRef}) divInvalidMessage: ElementRef;
+
+  constructor(private serviceObject: GiveawayService, private routerObj: Router, private sessionService: SessionService,private renderer:Renderer2) {
 
   }
 
@@ -32,7 +34,16 @@ export class LoginComponent implements OnInit {
             this.sessionService.setIsUserLoggedIn("true");
             this.routerObj.navigateByUrl("/home");
           } else {
-            this.routerObj.navigateByUrl("/home");
+           // this.routerObj.navigateByUrl("/home");
+           const childElements = this.divInvalidMessage.nativeElement.children;
+            for (let child of childElements) {
+              this.renderer.removeChild(this.divInvalidMessage.nativeElement, child);
+            }
+           let span=this.renderer.createElement('span');        
+           const text = this.renderer.createText("* Invalid credential.");         
+           this.renderer.appendChild(span, text);                        
+           this.renderer.appendChild(this.divInvalidMessage.nativeElement, span);          
+           
           }
           
         }, this.serviceObject.handleError);

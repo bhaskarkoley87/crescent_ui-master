@@ -11,6 +11,7 @@ export const environment = {
     endpoint: 'http://localhost:7008/',
     userManagementBaseUrl: 'http://localhost:8090/',
     inventoryManagementBasUrl: 'http://localhost:8091/',
+    reportendpont: 'http://localhost:5008/',
     mailBasUrl: 'http://localhost:7005/'
 };
 

@@ -67,7 +67,13 @@ export class GiveawayService {
       "POST",
       `${this.endpoint}` + `event/uploadimage`,
       formdata,
-      httpOptionsForMultipartEvent
+      {
+        headers: new HttpHeaders({
+          Authorization: "Basic " + btoa("loginUser:loginPassword")
+        }),
+        reportProgress: true,
+        responseType: 'json'
+      }
     );
 
     return this.http.request(req);
