@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { GiveawayService } from '../services/giveaway-service.service';
 import { SessionService } from '../services/user.session.service';
 import {environment} from '../../environments/environment';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-report',
@@ -13,8 +15,36 @@ import { Router } from '@angular/router';
 })
 export class ReportComponent implements OnInit {
 
+  dataURL: string;
+  quarterMonth: string[] = [];  
+  
+
   inventryReportData: any[] = [];
-  constructor(private serviceObject: GiveawayService, private sessionService: SessionService, private myRoute: Router) {
+  constructor(private serviceObject: GiveawayService, private sessionService: SessionService, private myRoute: Router, private sanitizer: DomSanitizer) {
+    
+   }
+
+   onChangeQuarter(param){
+     const utr = param.target.value;
+     console.log(utr);
+     this.quarterMonth = [];
+     if(utr === "1"){
+      this.quarterMonth.push("January");
+      this.quarterMonth.push("February");
+      this.quarterMonth.push("March");
+     } else if(utr === "2"){
+      this.quarterMonth.push("April");
+      this.quarterMonth.push("May");
+      this.quarterMonth.push("June");
+     } else if(utr === "3"){
+      this.quarterMonth.push("July");
+      this.quarterMonth.push("August");
+      this.quarterMonth.push("September");
+     } else if(utr === "4"){
+      this.quarterMonth.push("October");
+      this.quarterMonth.push("November");
+      this.quarterMonth.push("December");
+     }   
     
    }
 
@@ -24,6 +54,16 @@ export class ReportComponent implements OnInit {
     }else{
       this.getInventryReport();
     }
+  }
+
+  
+
+  public getSantizeUrl(url : string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
+  getReportDoc(){
+    window.open(this.dataURL+".xlsx");
   }
 
   public barChartOptions: ChartOptions = {
@@ -60,21 +100,28 @@ export class ReportComponent implements OnInit {
     console.log(event, active);
   }
 
-  /*public randomize(): void {
-    // Only Change 3 values
-    const data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      (Math.random() * 100),
-      56,
-      (Math.random() * 100),
-      40];
-    const clone = JSON.parse(JSON.stringify(this.barChartData));
-    clone[0].data = data;
-    this.barChartData = clone;
-    
-}*/
+  
+
+converBase64toBlob(content, contentType) {
+  contentType = contentType || '';
+  var sliceSize = 512;
+  var byteCharacters = atob(content); //method which converts base64 to binary
+  var byteArrays = [
+  ];
+  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    var slice = byteCharacters.slice(offset, offset + sliceSize);
+    var byteNumbers = new Array(slice.length);
+    for (var i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+    var byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+  var blob = new Blob(byteArrays, {
+    type: contentType
+  }); //statement which creates the blob
+  return blob;
+}
 
   public getInventryReport(): void{
     //this.barChartLabels = [];
@@ -86,10 +133,19 @@ export class ReportComponent implements OnInit {
     .subscribe(data => {
       //this.rowData = data;
       this.inventryReportData  =  Object.assign(data); 
-     // console.log(JSON.stringify(this.inventryReportData));
-      //for (var i = 0; i < this.inventryReportData.length; i++) {
+      console.log(this.inventryReportData[1]);
+        var bindata = this.inventryReportData[1];
+       // bindata = bindata.replace(/(\r\n|\n|\r)/gm, "");         
+        var blob = this.converBase64toBlob(bindata, 'application/msexcel');
+        var blobURL = URL.createObjectURL(blob);  
+       
+        this.dataURL = blobURL;
+       
+        
+
+
         const currReportResponse = JSON.parse(this.inventryReportData[0]);
-       // console.log(JSON.stringify(currReportResponse));
+      
         const rowLabelData = [];      
         for (var i = 0; i < currReportResponse.length; i++) {
           const rowTempData = currReportResponse[i];
@@ -115,7 +171,7 @@ export class ReportComponent implements OnInit {
           
             for (var x = 0; x < currReportResponse.length; x++) {
               const rowTempData = currReportResponse[x];
-              console.log(JSON.stringify(rowTempData));
+              //console.log(JSON.stringify(rowTempData));
               
                 if(rowTempData[0] == crrntCat){    
                   for(var mnt = 0 ; mnt < this.months.length ; mnt++){
@@ -159,7 +215,7 @@ export class ReportComponent implements OnInit {
         
         this.barChartData =  this.barTempChartData;
         //this.barChartLabels = this.barTempChartLabels;
-        console.log(JSON.stringify(this.barChartData));
+        //console.log(JSON.stringify(this.barChartData));
     });
 
 

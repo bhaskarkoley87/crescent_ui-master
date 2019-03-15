@@ -1,16 +1,92 @@
-<div>
-    <div class="row">
-      <div style="display: block" class="col-md-8">
-        <canvas baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [options]="barChartOptions"         
-          [legend]="barChartLegend"
-          [chartType]="barChartType">
-        </canvas>
-      </div>
-      <!--<div class="col-md-8">
-      <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>
-      </div>-->
+<div class="container">
+<div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 card">
+        <div class="card-body">           
+            <h3>Report Type</h3>
+            <hr/>
+            <select class="form-control">
+                <option value="ItemCount">Item Count</option>                     
+            </select>
+            <hr/>
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label for="userLastName">Item Category :</label>
+                <select class="form-control" name="reportCategory" id="reportCategory">
+                     <option value="Book">Book</option>
+                     <option value="SchoolKit">School Kit</option>
+                     <option value="Dress">Dress</option>
+                     <option value="Gadgets">Gadgets</option>
+                     <option value="Toys">Toys</option>
+                     <option value="SoftCopyStudyMaterial">Blanket</option>
+                     <option value="SoftCopyStudyMaterial">Soft Copy Study Material</option>
+                </select>
+           </div>
+           <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <label for="userLastName">Item Stauts :</label>
+              <select class="form-control" name="reportStauts" id="reportStauts">
+                   <option value="ItemAcquiredByVolunteer">Item Acquired By Volunteer</option>                    
+                   <option value="ItemCollected">Item Collected</option>
+                   <option value="ItemDonatedToNeedy">Item Donated To Needy</option>
+                   <option value="ItemRequestedByVolunteer">Item Requested By Volunteer</option>
+                   <option value="WaitingForAdminApproval">Waiting For Admin Approval</option>
+                   <option value="WaitingForCollection">Waiting For Collection</option>                   
+                   <option value="Rejected">Rejected</option>                           
+              </select>
+         </div>
+         <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <button type="button" class="btn btn-success">Generate Report</button>
+         </div>
+        </div>
     </div>
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 card">
+                <div class="row card-body">
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                         <label for="userLastName">Year :</label>
+                         <select class="form-control"  name="reportYear" id="reportYear">
+                              <option value="2018">2018</option>
+                              <option value="2019" selected>2019</option>
+                              <option value="2020">2020</option>
+                         </select>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                        <label for="userLastName">Quarter :</label>
+                        <select class="form-control" (change)="onChangeQuarter($event)" name="reportQuarter" id="reportQuarter">
+                             <option value="0">Select Quarter</option>
+                             <option value="1">Q1</option>
+                             <option value="2">Q2</option>
+                             <option value="3">Q3</option>
+                             <option value="4">Q4</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                        <label for="userLastName">Month :</label>
+                        <select class="form-control" id="reportMonth">
+                            <option name="quarterMonthOption" *ngFor="let opt of quarterMonth" [value]="opt">{{
+                                        opt }}</option>                                                      
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <canvas class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"         
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+              </canvas>
+            </div>
+            <div class="col-md-8" style="float:right">
+              <button class="btn btn-info" (click)="getReportDoc()">Download Report</button>
+              <br/>
+              <span style="color:red; font-style: italic">
+                ** Please change the file extension to .xlsx before you open it.
+              </span>
+            </div>        
+      
+          </div>
+    </div>
+   
   </div>
+</div>
