@@ -1,4 +1,5 @@
 <div class="container">
+    <form>
 <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 card">
         <div class="card-body">           
@@ -10,19 +11,21 @@
             <hr/>
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <label for="userLastName">Item Category :</label>
-                <select class="form-control" name="reportCategory" id="reportCategory">
+                <select class="form-control" name="reportCategory" id="reportCategory" [(ngModel)]="report.reportCategory">
+                     <option value="null" selected>All</option>
                      <option value="Book">Book</option>
                      <option value="SchoolKit">School Kit</option>
                      <option value="Dress">Dress</option>
                      <option value="Gadgets">Gadgets</option>
                      <option value="Toys">Toys</option>
-                     <option value="SoftCopyStudyMaterial">Blanket</option>
+                     <option value="Blanket">Blanket</option>
                      <option value="SoftCopyStudyMaterial">Soft Copy Study Material</option>
                 </select>
            </div>
            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
               <label for="userLastName">Item Stauts :</label>
-              <select class="form-control" name="reportStauts" id="reportStauts">
+              <select class="form-control" name="reportStauts" id="reportStauts" [(ngModel)]="report.reportStauts">
+                   <option value="null" selected>All</option> 
                    <option value="ItemAcquiredByVolunteer">Item Acquired By Volunteer</option>                    
                    <option value="ItemCollected">Item Collected</option>
                    <option value="ItemDonatedToNeedy">Item Donated To Needy</option>
@@ -33,7 +36,15 @@
               </select>
          </div>
          <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-            <button type="button" class="btn btn-success">Generate Report</button>
+                <label for="userLastName">Users List :</label>
+                <select class="form-control" name="userId"  [(ngModel)]="report.userId">
+                    <option value="null" selected>All</option>
+                    <option   *ngFor="let opt2 of userList" [value]="opt2[0]">{{
+                            opt2[1] }}</option>                                
+                </select>
+           </div>
+         <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <button type="submit" class="btn btn-success" (click)="generateReport()">Generate Report</button>
          </div>
         </div>
     </div>
@@ -43,7 +54,7 @@
                 <div class="row card-body">
                     <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                          <label for="userLastName">Year :</label>
-                         <select class="form-control"  name="reportYear" id="reportYear">
+                         <select class="form-control"  name="reportYear" id="reportYear" [(ngModel)]="report.reportYear">
                               <option value="2018">2018</option>
                               <option value="2019" selected>2019</option>
                               <option value="2020">2020</option>
@@ -51,17 +62,18 @@
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <label for="userLastName">Quarter :</label>
-                        <select class="form-control" (change)="onChangeQuarter($event)" name="reportQuarter" id="reportQuarter">
-                             <option value="0">Select Quarter</option>
+                        <select class="form-control" (change)="onChangeQuarter($event)" name="reportQuarter" id="reportQuarter" [(ngModel)]="report.reportQuarter">
+                             <option value="0" selected>All</option>
                              <option value="1">Q1</option>
-                             <option value="2">Q2</option>
+                             <option value="2">Q2</option> 
                              <option value="3">Q3</option>
                              <option value="4">Q4</option>
                         </select>
                     </div>
                     <div class="form-group col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                         <label for="userLastName">Month :</label>
-                        <select class="form-control" id="reportMonth">
+                        <select class="form-control" id="reportMonth" name="reportMonth" [(ngModel)]="report.reportMonth">
+                                <option value="null">All</option> 
                             <option name="quarterMonthOption" *ngFor="let opt of quarterMonth" [value]="opt">{{
                                         opt }}</option>                                                      
                         </select>
@@ -89,4 +101,5 @@
     </div>
    
   </div>
+</form>
 </div>

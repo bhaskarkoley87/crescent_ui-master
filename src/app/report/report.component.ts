@@ -6,7 +6,7 @@ import { SessionService } from '../services/user.session.service';
 import {environment} from '../../environments/environment';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { Report } from '../models/report';
 
 @Component({
   selector: 'app-report',
@@ -17,11 +17,12 @@ export class ReportComponent implements OnInit {
 
   dataURL: string;
   quarterMonth: string[] = [];  
-  
+  report: Report = null;
 
   inventryReportData: any[] = [];
+  userList: any[] = [];
   constructor(private serviceObject: GiveawayService, private sessionService: SessionService, private myRoute: Router, private sanitizer: DomSanitizer) {
-    
+     
    }
 
    onChangeQuarter(param){
@@ -52,18 +53,32 @@ export class ReportComponent implements OnInit {
     if(!this.sessionService.isUserSessionAlive()){
       this.myRoute.navigateByUrl("/home");
     }else{
-      this.getInventryReport();
+      this.report = new Report();
+      this.userList = [];
+      this.report.reportCategory = "null";
+      this.report.reportMonth = "null";
+      this.report.reportQuarter = "0";
+      this.report.reportStauts = "null";
+      this.report.reportYear = "2019";
+      this.report.userId = "null";
+      this.getUserList();
+      this.getInventryReport(null, null, 0, 0, null, null);
     }
   }
 
-  
+  generateReport(): void{
+    //console.log(this.report);
+    this.barChartData = [];
+    this.barTempChartData = [];
+    this.getInventryReport(this.report.reportCategory, this.report.reportStauts, this.report.reportQuarter, this.report.reportYear, this.report.reportMonth, this.report.userId);
+  }
 
   public getSantizeUrl(url : string) {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   getReportDoc(){
-    window.open(this.dataURL+".xlsx");
+    window.open(this.dataURL);
   }
 
   public barChartOptions: ChartOptions = {
@@ -123,17 +138,18 @@ converBase64toBlob(content, contentType) {
   return blob;
 }
 
-  public getInventryReport(): void{
+  public getInventryReport(itmCat, itmstatus, qtrVal, yrVal, mntVal, itmUsr): void{
     //this.barChartLabels = [];
+    
     this.serviceObject
     .getServiceCall(
       environment.reportendpont,
-      "report" + "/inventry?itemCategory=null&itemStatus=WaitingForAdminApproval&qutrValue=0&yrValue=2019&userId=bhaskarkoley"
+      "report" + "/inventry?itemCategory="+itmCat+"&itemStatus="+itmstatus+"&qutrValue="+qtrVal+"&yrValue="+yrVal+"&mntName="+mntVal+"&userId="+itmUsr+""
     )
     .subscribe(data => {
       //this.rowData = data;
       this.inventryReportData  =  Object.assign(data); 
-      console.log(this.inventryReportData[1]);
+      
         var bindata = this.inventryReportData[1];
        // bindata = bindata.replace(/(\r\n|\n|\r)/gm, "");         
         var blob = this.converBase64toBlob(bindata, 'application/msexcel');
@@ -145,79 +161,96 @@ converBase64toBlob(content, contentType) {
 
 
         const currReportResponse = JSON.parse(this.inventryReportData[0]);
-      
+        //console.log(this.inventryReportData[0]);
+        //console.log("Size of Data :::: "+currReportResponse.length);
         const rowLabelData = [];      
-        for (var i = 0; i < currReportResponse.length; i++) {
-          const rowTempData = currReportResponse[i];
-          if(rowLabelData.includes(rowTempData[0])== false){
-            rowLabelData.push(rowTempData[0]);
-          }       
-          
-         
-        }
-
-        var catData = {};
-        var catMntwsData = {};
-        for (var y = 0; y < rowLabelData.length; y++) {
-          const crrntCat = rowLabelData[y];
-          //mntName: String = "";
-          const rowData = [];
-          if(catData.hasOwnProperty(crrntCat)){
-            catMntwsData = catData[crrntCat];
-          }else{
-            catMntwsData = {};
+        if(currReportResponse.length > 0){
+          for (var i = 0; i < currReportResponse.length; i++) {
+            const rowTempData = currReportResponse[i];
+            if(rowLabelData.includes(rowTempData[0])== false){
+              rowLabelData.push(rowTempData[0]);
+            }       
+            
+           
           }
-          var value = "";
-          
-            for (var x = 0; x < currReportResponse.length; x++) {
-              const rowTempData = currReportResponse[x];
-              //console.log(JSON.stringify(rowTempData));
-              
-                if(rowTempData[0] == crrntCat){    
-                  for(var mnt = 0 ; mnt < this.months.length ; mnt++){
-                   // mntName = this.months[mnt];
-                    if(this.months[mnt]==rowTempData[5]){
-                      value = rowTempData[2];
-                    }else{
-                      value = "0";
-                    }
-                    //rowData.push(value);
-                    if(catMntwsData.hasOwnProperty(JSON.stringify(this.months[mnt]))){
-                      catMntwsData[JSON.stringify(this.months[mnt])] = parseInt(catMntwsData[JSON.stringify(this.months[mnt])])+parseInt(value);
-                    }else{
-                      catMntwsData[JSON.stringify(this.months[mnt])] = parseInt(value);
-                    }
-                  }             
-                  catData[crrntCat] = catMntwsData;
-                }
-              
+  
+          var catData = {};
+          var catMntwsData = {};
+          for (var y = 0; y < rowLabelData.length; y++) {
+            const crrntCat = rowLabelData[y];
+            //mntName: String = "";
+            const rowData = [];
+            if(catData.hasOwnProperty(crrntCat)){
+              catMntwsData = catData[crrntCat];
+            }else{
+              catMntwsData = {};
             }
+            var value = "";
+            
+              for (var x = 0; x < currReportResponse.length; x++) {
+                const rowTempData = currReportResponse[x];
+                //console.log(JSON.stringify(rowTempData));
+                
+                  if(rowTempData[0] == crrntCat){    
+                    for(var mnt = 0 ; mnt < this.months.length ; mnt++){
+                     // mntName = this.months[mnt];
+                      if(this.months[mnt]==rowTempData[5]){
+                        value = rowTempData[2];
+                      }else{
+                        value = "0";
+                      }
+                      //rowData.push(value);
+                      if(catMntwsData.hasOwnProperty(JSON.stringify(this.months[mnt]))){
+                        catMntwsData[JSON.stringify(this.months[mnt])] = parseInt(catMntwsData[JSON.stringify(this.months[mnt])])+parseInt(value);
+                      }else{
+                        catMntwsData[JSON.stringify(this.months[mnt])] = parseInt(value);
+                      }
+                    }             
+                    catData[crrntCat] = catMntwsData;
+                  }
+                
+              }
+             
+             
+             
+             
            
            
-           
-           
-         
-         
-        }     
-
-        for (var key in catData) {
-          const rowData = catData[key];
-          const rowMonth = [];
-          for(var key2 in rowData){
-            rowMonth.push(rowData[key2]);
+          }     
+  
+          for (var key in catData) {
+            const rowData = catData[key];
+            const rowMonth = [];
+            for(var key2 in rowData){
+              rowMonth.push(rowData[key2]);
+            }
+            const actualRowData = {data : rowMonth, label : key};
+            this.barTempChartData.push(actualRowData);
           }
-          const actualRowData = {data : rowMonth, label : key};
-          this.barTempChartData.push(actualRowData);
+          
+         
+  
+          
+          this.barChartData =  this.barTempChartData;
+        }else{
+          this.barChartData = [{"data":[0,0,0,0,0,0,0,0,0,0,0,0],"label":""}];
+          this.barTempChartData = [];
         }
         
-       
-
-        
-        this.barChartData =  this.barTempChartData;
         //this.barChartLabels = this.barTempChartLabels;
         //console.log(JSON.stringify(this.barChartData));
     });
 
 
+  }
+
+  getUserList(): void{
+    this.serviceObject.getServiceCall(
+        environment.reportendpont,
+        "report" + "/getUsers/"
+      ).subscribe(data => {
+        this.userList = Object.assign(data);
+       //console.log(this.userList);
+      }, this.serviceObject.handleError);
   }
 }
