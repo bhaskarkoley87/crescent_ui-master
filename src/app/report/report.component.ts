@@ -7,6 +7,8 @@ import {environment} from '../../environments/environment';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Report } from '../models/report';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PopupModalComponent } from '../popup-modal/popup-modal.component';
 
 @Component({
   selector: 'app-report',
@@ -21,7 +23,7 @@ export class ReportComponent implements OnInit {
 
   inventryReportData: any[] = [];
   userList: any[] = [];
-  constructor(private serviceObject: GiveawayService, private sessionService: SessionService, private myRoute: Router, private sanitizer: DomSanitizer) {
+  constructor(private serviceObject: GiveawayService, private sessionService: SessionService, private myRoute: Router, private sanitizer: DomSanitizer, private modalService : NgbModal) {
      
    }
 
@@ -145,10 +147,18 @@ converBase64toBlob(content, contentType) {
     .getServiceCall(
       environment.reportendpont,
       "report" + "/inventry?itemCategory="+itmCat+"&itemStatus="+itmstatus+"&qutrValue="+qtrVal+"&yrValue="+yrVal+"&mntName="+mntVal+"&userId="+itmUsr+""
-    )
+    )   
     .subscribe(data => {
-      //this.rowData = data;
+      console.log(data);
       this.inventryReportData  =  Object.assign(data); 
+      /*console.log(data.status);*/
+      if(this.inventryReportData["errorCode"] != 200 && this.inventryReportData["errorCode"] != null){
+        const messageToShow = this.inventryReportData["message"];
+        const modalRef = this.modalService.open(PopupModalComponent);
+        modalRef.componentInstance.thisModalContent = messageToShow;        
+      }
+      //this.rowData = data;
+      
       
         var bindata = this.inventryReportData[1];
        // bindata = bindata.replace(/(\r\n|\n|\r)/gm, "");         
@@ -239,6 +249,9 @@ converBase64toBlob(content, contentType) {
         
         //this.barChartLabels = this.barTempChartLabels;
         //console.log(JSON.stringify(this.barChartData));
+    },error =>{
+      
+      this.serviceObject.handleError
     });
 
 

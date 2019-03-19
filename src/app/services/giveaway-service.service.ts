@@ -81,9 +81,10 @@ export class GiveawayService {
 
   // For Error handeling
   public handleError<T>(operation = "operation", result?: T) {
+    console.log("Error");
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.log("::::::::::::::::::: "+error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       console.log(`${operation} failed: ${error.message}`);
@@ -107,8 +108,8 @@ export class GiveawayService {
   /* Function to call the REST API for GET type */
   getServiceCall(baseUrl: string, resourceUrl: string): Observable<Object> {
     var response: any = null;
-    var completeEndpointUrl: string = baseUrl + resourceUrl;
-    return this.http.get(completeEndpointUrl, httpOptions);
+    var completeEndpointUrl: string = baseUrl + resourceUrl;    
+    return this.http.get(completeEndpointUrl, httpOptions);    
   }
 
   uploadFileServiceCall(
